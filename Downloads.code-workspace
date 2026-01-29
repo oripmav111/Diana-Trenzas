@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"name": "Downloads",
+			"path": "../Downloads"
+		},
+		{
+			"path": "../blubu"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "blubu",
+		"liveServer.settings.port": 5501
+	}
+}

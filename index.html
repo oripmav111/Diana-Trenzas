@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Diana Trenzas - Servicios de trenzado profesional y venta de productos.">
+    <title>Diana Trenzas</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✂️</text></svg>">
+    <!-- Política de Seguridad de Contenido (CSP) para prevenir ataques XSS e inyecciones de scripts externos -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; script-src 'self' https://cdn.jsdelivr.net; img-src 'self' data: https://via.placeholder.com https://i.pravatar.cc; connect-src 'self';">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Mensaje de Bienvenida -->
+    <div id="welcomeMessage" style="display: none; background-color: var(--primary); color: white; text-align: center; padding: 12px; font-weight: bold; font-size: 1.4rem; font-family: 'Cormorant Garamond', serif; letter-spacing: 1px; transition: opacity 1s ease-out;">
+        ¡Bienvenido a Diana Trenzas!
+    </div>
+    <!-- Banner de Mantenimiento -->
+    <div id="maintenanceBanner" style="display: none; background-color: #f97316; color: white; text-align: center; padding: 10px; font-weight: bold; position: sticky; top: 0; z-index: 2001;">
+        El sitio está en modo mantenimiento. Las citas están desactivadas temporalmente.
+    </div>
+    <header>
+        <nav>
+            <div class="logo">
+                <span class="logo-text">Diana Trenzas</span>
+                <span class="floating-icon" style="top: 0; left: 10%; animation-delay: 0s;">✂️</span>
+                <span class="floating-icon" style="top: 50%; left: 80%; animation-delay: 1s; font-size: 0.8rem;">✨</span>
+                <span class="floating-icon" style="top: 10%; left: 50%; animation-delay: 2s;">🌸</span>
+                <span class="floating-icon" style="top: 80%; left: 20%; animation-delay: 3s; font-size: 0.9rem;">💖</span>
+            </div>
+            <div class="nav-links">
+                <a href="#productos">Productos</a>
+                <a href="#" id="openCartBtn">Carrito (<span id="cart-count">0</span>)</a>
+                <button id="themeToggle">🌙</button>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Arte en Cada Trenza</h1>
+            <p>Transforma tu estilo, expresa tu identidad.</p>
+        </div>
+    </section>
+
+    <main>
+        <div id="productos" class="section">
+            <h2 class="section-title">Nuestros Estilos</h2>
+            <p class="section-subtitle">Explora nuestra selección de trenzas, diseñadas con pasión y precisión para realzar tu belleza.</p>
+            <div class="product-grid">
+                <!-- Los productos se cargarán aquí con JavaScript -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Modal del Carrito -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Mi Carrito de Citas</h2>
+                <span class="close-button" id="closeCartModal">&times;</span>
+            </div>
+            <div class="modal-body" id="cartItemsContainer">
+                <p>Aún no has agendado ninguna cita.</p>
+            </div>
+            <div id="checkoutForm" style="display: none; margin-top: 20px; text-align: left;">
+                <label for="clientName" style="display: block; margin-bottom: 5px; font-weight: bold;">Nombre para la reserva:</label>
+                <input type="text" id="clientName" placeholder="Escribe tu nombre completo" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 5px; box-sizing: border-box; font-family: inherit; font-size: 1rem;">
+            </div>
+            <div class="modal-footer">
+                <h3>Total: <span id="cartTotal">$0.00</span></h3>
+                <button id="checkoutBtn" class="cta-button">Agendar Citas</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Agenda de Citas -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Agendar Cita para <span id="bookingProductName"></span></h2>
+                <span class="close-button" id="closeBookingModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="calendar" class="calendar"></div>
+                <h4 style="margin-top: 20px;">Selecciona una hora:</h4>
+                <div id="timeSlots" class="time-slots"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="confirmBookingBtn" class="cta-button">Confirmar Cita</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón y Ventana del Chat -->
+    <button id="chatToggle" class="chat-toggle">🌸</button>
+    <div id="chatWidget" class="chat-widget">
+        <div class="chat-header">
+            Asistente Diana
+            <button id="closeChat" style="background:none; border:none; color:white; cursor:pointer; font-size:1.2rem;">×</button>
+        </div>
+        <div id="chatMessages" class="chat-messages">
+            <div class="message bot-msg">¡Hola! Soy tu asistente de estilo. ¿Buscas un cambio de look?</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Escribe tu pregunta..." style="flex:1; border:1px solid var(--border); padding:8px; border-radius:5px;">
+            <button id="sendMessage" class="cta-button" style="padding: 8px 15px;">Enviar</button>
+        </div>
+    </div>
+
+    <!-- Modales de Administración -->
+    <!-- Modal de Administrador (Secreto) -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Panel de Administración</h2>
+                <span class="close-button" id="closeAdminModal">&times;</span>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+                <!-- Pestañas del panel de admin -->
+                <div class="admin-tabs">
+                    <button class="admin-tab-btn active" data-tab="dashboard">Dashboard</button>
+                    <button class="admin-tab-btn" data-tab="products">Productos</button>
+                    <button class="admin-tab-btn" data-tab="settings">Ajustes</button>
+                </div>
+
+                <!-- Contenido de las pestañas -->
+                <div id="dashboard" class="admin-tab-content">
+                    <div id="salesChartContainer" style="margin-bottom: 20px;"></div>
+                    <h3 style="margin-top: 20px; text-align: left;">Tickets Recientes</h3>
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px; align-items: center; flex-wrap: wrap;">
+                        <input type="text" id="ticketSearchInput" placeholder="🔍 Buscar por cliente..." style="flex-grow: 1; padding: 8px; border: 1px solid var(--border); border-radius: 5px; box-sizing: border-box; min-width: 200px;">
+                        <select id="statusFilter" style="padding: 8px; border: 1px solid var(--border); border-radius: 5px; background-color: var(--bg-card); color: var(--text-main); cursor: pointer;">
+                            <option value="todos">Todos los estados</option>
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="Confirmado">Confirmado</option>
+                            <option value="Completado">Completado</option>
+                            <option value="Cancelado">Cancelado</option>
+                        </select>
+                    </div>
+                    <div style="overflow-x: auto; max-height: 300px; margin-bottom: 20px; border: 1px solid var(--border); border-radius: 5px;">
+                        <table id="recentTicketsTable" style="width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left;">
+                            <thead style="background-color: var(--border); color: var(--text-main);">
+                                <tr>
+                                    <th style="padding: 10px;">Ticket</th>
+                                    <th style="padding: 10px;">Cliente</th>
+                                    <th style="padding: 10px;">Fecha Cita</th>
+                                    <th style="padding: 10px;">Producto</th>
+                                    <th style="padding: 10px;">Precio</th>
+                                    <th style="padding: 10px;">Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody style="color: var(--text-main);">
+                                <!-- Rows injected by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <button id="downloadReportBtn" class="cta-button" style="background-color: #10b981; margin-top: 10px;">Descargar Reporte CSV</button>
+                </div>
+                <div id="products" class="admin-tab-content" style="display: none;">
+                    <button id="manageProductsBtn" class="cta-button" style="background-color: #1d4ed8; margin-top: 10px;">Gestionar Catálogo</button>
+                </div>
+                <div id="settings" class="admin-tab-content" style="display: none; text-align: left;">
+                    <h4 style="margin-top:0;">Ajustes Generales</h4>
+                    <label for="siteNameInput">Nombre del Sitio:</label>
+                    <input type="text" id="siteNameInput" style="width: 100%; padding: 8px; box-sizing: border-box; margin-bottom: 10px;">
+                    <label for="primaryColorInput">Color Principal:</label>
+                    <input type="color" id="primaryColorInput" style="width: 100%; padding: 5px; box-sizing: border-box; margin-bottom: 10px;">
+                    <button id="saveSettingsBtn" class="cta-button">Guardar Ajustes</button>
+                    <hr style="margin: 20px 0; border-color: var(--border);">
+                    <h4 style="margin-top:0;">Acciones Peligrosas</h4>
+                    <button id="maintenanceToggleBtn" class="cta-button" style="background-color: #f59e0b; margin-top: 10px;">Modo Mantenimiento</button>
+                    <button id="resetTicketsBtn" class="cta-button" style="background-color: #dc2626; margin-top: 10px;">Reiniciar Tickets</button>
+                    <button id="deleteTicketBtn" class="cta-button" style="background-color: #ef4444; margin-top: 10px;">Borrar un Ticket</button>
+                    <button id="clearHistoryBtn" class="cta-button" style="background-color: #b91c1c; margin-top: 10px;">Borrar Historial</button>
+                    <button id="clearStorageBtn" class="cta-button" style="background-color: #ef4444; margin-top: 10px;">Limpiar Caché</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Administración de Productos -->
+    <div id="productAdminModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h2>Gestionar Productos</h2>
+                <span class="close-button" id="closeProductAdminModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <!-- Formulario para añadir producto -->
+                <div id="addProductForm" style="padding: 15px; border: 1px solid var(--border); border-radius: 5px; margin-bottom: 20px;">
+                    <h3 style="margin-top: 0;">Añadir Nuevo Producto</h3>
+                    <input type="text" id="newProductName" placeholder="Nombre del producto" style="width: 100%; margin-bottom: 10px; padding: 8px; box-sizing: border-box;">
+                    <textarea id="newProductDesc" placeholder="Descripción" style="width: 100%; margin-bottom: 10px; padding: 8px; box-sizing: border-box;"></textarea>
+                    <input type="number" id="newProductPrice" placeholder="Precio (ej: 45.00)" style="width: 49%; margin-bottom: 10px; padding: 8px; box-sizing: border-box;">
+                    <input type="text" id="newProductImage" placeholder="Ruta de imagen (ej: images/foto.jpg)" style="width: 49%; float: right; margin-bottom: 10px; padding: 8px; box-sizing: border-box;">
+                    <button id="saveProductBtn" class="cta-button">Añadir Producto</button>
+                    <button id="cancelEditBtn" class="cta-button" style="display: none; background-color: #6b7280; margin-left: 10px;">Cancelar</button>
+                </div>
+                <!-- Lista de productos existentes -->
+                <h3 style="margin-top: 20px;">Productos Actuales</h3>
+                <div id="productListAdmin" style="max-height: 300px; overflow-y: auto;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Notification / Confirmation Modal -->
+    <div id="customModal" class="modal">
+        <div class="modal-content" style="max-width: 400px; text-align: center;">
+            <div class="modal-body">
+                <div id="customModalMessage" style="font-size: 1.1rem; margin-bottom: 20px;"></div>
+                <input type="text" id="customModalInput" style="display: none; width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 5px; box-sizing: border-box; margin-bottom: 15px;">
+                <div id="customModalButtons">
+                    <!-- Buttons will be injected here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer id="pageFooter">
+        <div class="social-icons">
+            <a href="https://www.instagram.com/dianatrenzas?igsh=MTN3cjZvNnZvNnpvZQ==" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.facebook.com/profile.php?id=100031951124477&ref_id=xav_iglite_profile_link_backtest" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i></a>
+            <a href="https://wa.me/4452405998" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://vm.tiktok.com/ZS91UNaeNGUnr-wzjvW/" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i></a>
+        </div>
+        <p class="motivational-quote">"La belleza comienza en el momento en que decides ser tú misma."</p>
+        <p>&copy; 2024 Diana Trenzas. Todos los derechos reservados.</p>
+        <div class="footer-links">
+            <a href="terminos.html">Términos de Servicio</a> |
+            <a href="privacidad.html">Política de Privacidad</a>
+        </div>
+        <p class="blubu-credit">Desarrollado con ❤️ por Blubu</p>
+    </footer>
+
+    <!-- Aviso de Cookies -->
+    <div id="cookieConsent" class="cookie-consent">
+        <p style="margin: 0; color: var(--text-main);">Utilizamos cookies para mejorar tu experiencia y recordar tus preferencias. 🍪</p>
+        <button id="acceptCookies" class="cta-button">Aceptar</button>
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>

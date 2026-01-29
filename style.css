@@ -1,0 +1,580 @@
+html {
+    scroll-behavior: smooth;
+}
+:root {
+    --bg-body: #f5f3ff;
+    --bg-card: #ffffff;
+    --text-main: #1f2937; /* Negro suave */
+    --text-muted: #6b7280;
+    --primary: #8b5cf6; /* Morado Vibrante */
+    --primary-hover: #7c3aed;
+    --border: #e5e7eb; /* Gris claro */
+    --shadow: 0 4px 15px rgba(0,0,0,0.05);
+    --nav-bg: rgba(255, 255, 255, 0.85); /* Fondo semitransparente */
+    --nav-text: white;
+}
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    transition: background-color 0.3s, color 0.3s;
+    background-image: linear-gradient(to top, #f3e8ff, #fdf2f8, #ffffff);
+}
+body.is-night {
+    background-image: linear-gradient(to top, #e9d5ff, #f3e8ff, #ffffff); /* Tono lavanda más profundo para la noche */
+}
+body.dark-mode {
+    --bg-body: #111827; /* Negro azulado */
+    --bg-card: #1e293b;
+    --text-main: #e2e8f0;
+    --text-muted: #9ca3af;
+    --primary: #a78bfa; /* Lavanda Neón */
+    --primary-hover: #c4b5fd;
+    --border: #334155;
+    --shadow: 0 4px 15px rgba(0,0,0,0.2);
+    --nav-bg: rgba(30, 41, 59, 0.85); /* Fondo semitransparente oscuro */
+    --nav-text: #e2e8f0;
+    background-image: none;
+}
+header {
+    background-color: var(--nav-bg);
+    color: var(--text-main);
+    backdrop-filter: blur(12px); /* Efecto de cristal esmerilado */
+    -webkit-backdrop-filter: blur(12px);
+    padding: 1rem;
+    box-shadow: var(--shadow);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--text-main);
+    position: relative; /* Para posicionar las mariposas */
+    display: inline-block; /* Para que el contenedor se ajuste al texto */
+    padding: 0 10px;
+}
+.logo-text {
+    background: linear-gradient(90deg, var(--primary), var(--text-main), var(--primary));
+    background-size: 200% auto;
+    color: #fff;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 5s linear infinite;
+}
+@keyframes shimmer {
+    to {
+        background-position: -200% center;
+    }
+}
+.nav-links a, .nav-links button {
+    color: var(--text-main);
+    text-decoration: none;
+    margin-left: 15px;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+.nav-links a:hover {
+    color: var(--primary);
+}
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Alinea el contenido arriba */
+    padding: 0;
+    flex-direction: column;
+    text-align: center;
+}
+footer {
+    background-color: var(--bg-card);
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    text-align: center;
+    padding: 1rem;
+    margin-top: auto;
+}
+.cta-button {
+    display: inline-block;
+    background-color: var(--primary);
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    border: none;
+    cursor: pointer;
+}
+.cta-button:hover {
+    background-color: var(--primary-hover);
+}
+.card {
+    background: var(--bg-card);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    text-align: left;
+    /* Propiedades para la animación de entrada */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out, box-shadow 0.3s ease;
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.15); /* Glow con color primario */
+}
+.card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+/* Estilos Tienda */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px;
+}
+.product-image {
+    width: 100%;
+    height: 200px;
+    background-color: var(--border);
+    border-radius: 5px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    overflow: hidden; /* Para que la imagen no se salga del borde redondeado */
+}
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+.card:hover .product-image img { /* This is redundant with the card hover, but more specific */
+    transform: scale(1.1);
+}
+.card h3 { font-family: 'Cormorant Garamond', serif; }
+
+/* Estilos Chatbot */
+.chat-widget {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 320px;
+    height: 450px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--primary);
+    box-shadow: var(--shadow);
+    border-radius: 10px;
+    display: none;
+    flex-direction: column;
+    z-index: 1000;
+    overflow: hidden;
+}
+.chat-header {
+    background-color: var(--primary);
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+.chat-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.message {
+    padding: 8px 12px;
+    border-radius: 15px;
+    max-width: 80%;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+.bot-msg {
+    background-color: var(--border);
+    align-self: flex-start;
+    color: var(--text-main);
+    border-bottom-left-radius: 2px;
+}
+.user-msg {
+    background-color: var(--primary);
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 2px;
+}
+.chat-input-area {
+    padding: 10px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 5px;
+    background-color: var(--bg-card);
+}
+.chat-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    font-size: 1.8rem;
+    z-index: 1000;
+    transition: transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.chat-toggle:hover {
+    transform: scale(1.1);
+}
+
+/* Estilos Modales (Carrito y Agenda) */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+    animation: fadeIn 0.3s;
+}
+.modal-content {
+    background-color: var(--bg-card);
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid var(--border);
+    width: 90%;
+    max-width: 600px;
+    border-radius: 10px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s;
+}
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+.modal-header h2 { margin: 0; font-family: 'Cormorant Garamond', serif; }
+.close-button {
+    color: var(--text-muted);
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.modal-footer {
+    border-top: 1px solid var(--border);
+    padding-top: 15px;
+    margin-top: 20px;
+    text-align: right;
+}
+@keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+@keyframes slideIn { from {transform: translateY(-50px);} to {transform: translateY(0);} }
+
+/* Estilos Carrito */
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+}
+.cart-item:last-child { border-bottom: none; }
+
+/* Estilos Calendario */
+.calendar { text-align: center; }
+.calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.calendar-header button { background: none; border: 1px solid var(--border); border-radius: 5px; cursor: pointer; }
+.weekdays { display: grid; grid-template-columns: repeat(7, 1fr); font-weight: bold; margin-bottom: 5px; }
+.days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+.day {
+    padding: 10px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background-color 0.2s, color 0.2s;
+}
+.day:hover { background-color: var(--border); }
+.day.other-month { color: var(--text-muted); }
+.day.selected { background-color: var(--primary); color: white; }
+.day.disabled { color: var(--text-muted); cursor: not-allowed; text-decoration: line-through; }
+
+/* Estilos Horarios */
+.time-slots { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+.time-slot {
+    padding: 8px 15px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+.time-slot:hover { background-color: var(--border); }
+.time-slot.selected { background-color: var(--primary); color: white; border-color: var(--primary); }
+
+/* Iconos Redes Sociales */
+.social-icons {
+    margin-bottom: 15px;
+}
+.social-icons a {
+    color: var(--text-muted);
+    font-size: 1.5rem;
+    margin: 0 10px;
+    transition: color 0.3s, transform 0.3s;
+    display: inline-block;
+}
+.social-icons a:hover {
+    color: var(--primary);
+    transform: translateY(-3px);
+}
+
+.motivational-quote {
+    font-style: italic;
+    color: var(--text-muted);
+    margin: 15px 0 20px;
+}
+.footer-links {
+    margin: 10px 0;
+    font-size: 0.8rem;
+}
+.footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    margin: 0 8px;
+}
+.footer-links a:hover {
+    color: var(--primary);
+    text-decoration: underline;
+}
+.blubu-credit {
+    margin-top: 15px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+/* NEW: Nav link underline effect */
+.nav-links a {
+    position: relative;
+    padding-bottom: 5px; /* Space for the underline */
+}
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary);
+    transition: width 0.3s ease-out;
+}
+.nav-links a:hover::after {
+    width: 100%;
+}
+.nav-links button { /* Ensure buttons also have some padding if needed */
+    padding-bottom: 5px;
+}
+
+/* Animación de iconos flotantes en el logo */
+.floating-icon {
+    position: absolute;
+    font-size: 1rem;
+    animation: float-up 5s ease-in-out infinite;
+    opacity: 0;
+    text-shadow: 0 0 5px rgba(255,255,255,0.5);
+}
+@keyframes float-up {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    20%, 80% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-40px) rotate(20deg);
+        opacity: 0;
+    }
+}
+
+/* Aviso de Cookies */
+.cookie-consent {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--bg-card);
+    border-top: 1px solid var(--border);
+    padding: 20px;
+    box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+    z-index: 2000;
+    display: none; /* Se muestra con JS */
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+/* Estilos para admin de productos */
+.product-admin-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid var(--border);
+}
+.product-admin-item:last-child { border-bottom: none; }
+.delete-product-btn {
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.edit-product-btn {
+    background-color: #3b82f6; /* Azul */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+/* Chatbot typing indicator */
+.typing-indicator span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--text-muted);
+    animation: bounce 1.3s infinite;
+}
+@keyframes bounce { 0%, 75%, 100% { transform: translateY(0); } 25% { transform: translateY(-8px); } }
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+.section {
+    width: 100%;
+    max-width: 1200px;
+    padding: 4rem 2rem;
+    margin: 0 auto;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    box-sizing: border-box;
+}
+.section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.hero.visible { /* Ensure hero also gets visible class if needed for animation */
+    opacity: 1;
+    transform: translateY(0);
+}
+.section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    color: var(--text-main);
+}
+.section-subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Hero Section */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6rem 2rem;
+    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://via.placeholder.com/1500x800.png/8b5cf6/ffffff?text=Diana+Trenzas') no-repeat center center/cover;
+    color: white;
+    min-height: 60vh;
+    width: 100%;
+    box-sizing: border-box;
+}
+.hero-content h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    margin: 0;
+}
+.hero-content p {
+    font-size: 1.5rem;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+    margin-top: 1rem;
+}
+
+/* Admin Tabs */
+.admin-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1rem;
+}
+.admin-tab-btn {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    font-weight: bold;
+    border-bottom: 2px solid transparent;
+}
+.admin-tab-btn.active {
+    color: var(--primary);
+    border-bottom: 2px solid var(--primary);
+}
+
+/* NEW: CTA Button Hover Effect */
+.cta-button:hover {
+    transform: translateY(-2px); /* Subtle lift effect */
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2); /* More pronounced shadow on hover */
+}
+#recentTicketsTable tbody tr:hover {
+    background-color: rgba(0,0,0,0.05); /* Efecto hover para las filas de la tabla */
+}
